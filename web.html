@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Radar-Based Activity Recognition for Smart Home Monitoring</title>
+    <style>
+        /* Reset and base styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        /* Header styles with radar animation */
+        header {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 6rem 2rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .radar-animation {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            opacity: 0.3;
+        }
+
+        .radar-line {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 50%;
+            height: 2px;
+            background: linear-gradient(90deg, rgba(255,255,255,0.8), transparent);
+            transform-origin: left;
+            animation: radarScan 4s linear infinite;
+        }
+
+        @keyframes radarScan {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        header h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            position: relative;
+            z-index: 1;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        header p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Navigation */
+        nav {
+            background: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+        }
+
+        nav ul {
+            display: flex;
+            justify-content: center;
+            list-style: none;
+            padding: 1rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        nav ul li a {
+            color: #1e3c72;
+            text-decoration: none;
+            padding: 0.8rem 1.5rem;
+            margin: 0 0.5rem;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        nav ul li a:hover, nav ul li a.active {
+            background-color: #1e3c72;
+            color: white;
+        }
+
+        /* Main content */
+        .section {
+            padding: 6rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section:nth-child(even) {
+            background: #f8f9fa;
+        }
+
+        .section h2 {
+            color: #1e3c72;
+            margin-bottom: 2rem;
+            text-align: center;
+            font-size: 2.5rem;
+            position: relative;
+        }
+
+        .section h2::after {
+            content: '';
+            display: block;
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(90deg, #1e3c72, #2a5298);
+            margin: 1rem auto;
+            border-radius: 2px;
+        }
+
+        /* Feature cards */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .feature-card {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+            transition: transform 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .feature-icon {
+            font-size: 2.5rem;
+            color: #1e3c72;
+            margin-bottom: 1rem;
+        }
+
+        /* Team section */
+        .team-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2.5rem;
+            padding: 2rem;
+        }
+
+        .team-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+
+        .team-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+        }
+
+        .team-card img {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            object-position: top;
+            transition: transform 0.3s ease;
+        }
+
+        .team-card:hover img {
+            transform: scale(1.05);
+        }
+
+        .team-card-content {
+            padding: 2rem;
+            text-align: center;
+            background: white;
+        }
+
+        .team-card h3 {
+            color: #1e3c72;
+            margin-bottom: 0.5rem;
+            font-size: 1.5rem;
+        }
+
+        .team-card p {
+            color: #666;
+            font-size: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .team-social {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .team-social a {
+            color: #1e3c72;
+            text-decoration: none;
+            padding: 0.5rem;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+
+        .team-social a:hover {
+            background: #1e3c72;
+            color: white;
+        }
+
+        /* Video demo section */
+        .demo-section {
+            background: #f8f9fa;
+            padding: 4rem 2rem;
+            text-align: center;
+        }
+
+        .demo-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .video-container {
+            width: 100%;
+            margin: 2rem auto;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .video-container iframe {
+            width: 100%;
+            height: 450px;
+            border: none;
+            background: #000;
+        }
+
+        /* Footer */
+        footer {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            text-align: center;
+            padding: 4rem 2rem;
+            margin-top: 4rem;
+        }
+
+        footer p {
+            max-width: 600px;
+            margin: 1rem auto;
+            font-size: 1.1rem;
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2rem;
+            }
+
+            nav ul {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            nav ul li {
+                margin: 0.5rem 0;
+            }
+
+            .section {
+                padding: 4rem 1rem;
+            }
+
+            .radar-animation {
+                width: 200px;
+                height: 200px;
+            }
+
+            .team-card img {
+                height: 250px;
+            }
+
+            .video-container iframe {
+                height: 250px;
+            }
+        }
+
+        /* Animations */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.6s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Image sections */
+        .image-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .image-card {
+            position: relative;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .image-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .image-card img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+        }
+
+        .image-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, rgba(30, 60, 114, 0.9), transparent);
+            padding: 2rem 1rem 1rem;
+            color: white;
+        }
+
+        .image-overlay h3 {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .benefits-section {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            padding: 4rem 2rem;
+        }
+
+        .benefit-card {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+        }
+
+        .benefit-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+        }
+
+        .benefit-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: #1e3c72;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="radar-animation">
+            <div class="radar-line"></div>
+        </div>
+        <h1>Radar-Based Activity Recognition</h1>
+        <p>Supporting Independent Living for Older People Through Advanced Sensing Technology</p>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="#overview">Overview</a></li>
+            <li><a href="#features">Features</a></li>
+            <li><a href="#demo">How It Works</a></li>
+            <li><a href="#methodology">Methodology</a></li>
+            <li><a href="#results">Results</a></li>
+            <li><a href="#team">Research Team</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <section id="overview" class="section fade-in">
+            <h2>Overview</h2>
+            <p>Our research addresses the challenges posed by an aging population and social isolation among older people. There is a growing need for solutions that can help monitor older individuals in their own homes. Smart homes equipped with radar technology have emerged as a viable alternative, promoting active aging and independence while improving quality of life.</p>
+            
+            <div class="image-grid">
+                <div class="image-card">
+                    <img src="https://www.nurseregistry.com/wp-content/uploads/2021/12/Nurse-reassuring-patient-at-home_1200-1024x683.jpg" alt="Home Monitoring">
+                    <div class="image-overlay">
+                        <h3>Home Monitoring</h3>
+                        <p>Supporting independent living for older people</p>
+                    </div>
+                </div>
+                <div class="image-card">
+                    <img src="https://www.boc-group.com/wp-content/uploads/2022/12/Simplified-View-of-a-Radar-Chart-1-1200x940.png" alt="Radar Technology">
+                    <div class="image-overlay">
+                        <h3>Radar Technology</h3>
+                        <p>Low-intrusive monitoring without cameras or wearables</p>
+                    </div>
+                </div>
+                <div class="image-card">
+                    <img src="https://www.innosent.de/fileadmin/media/bilder/radartechnologie/Komp-1-_0-01-47-40_.jpg" alt="Radar Setup">
+                    <div class="image-overlay">
+                        <h3>3D People Tracking</h3>
+                        <p>Precise movement detection and analysis</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="benefits" class="section benefits-section fade-in">
+            <h2>Benefits for Older People</h2>
+            <div class="features-grid">
+                <div class="benefit-card">
+                    <div class="benefit-icon">🏠</div>
+                    <h3>Independent Living</h3>
+                    <p>Enables older people to live independently while maintaining peace of mind for family members.</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">🛡️</div>
+                    <h3>Inactivity Detection</h3>
+                    <p>Immediate detection and notification if inactivity is detected for extended periods, encouraging movement.</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">🔒</div>
+                    <h3>Privacy-Preserving</h3>
+                    <p>No cameras or wearable devices required, maintaining comfort and privacy in daily activities.</p>
+                </div>
+            </div>
+
+            <div class="image-grid">
+                <div class="image-card">
+                    <img src="https://community-assets.home-assistant.io/original/4X/f/9/5/f9530d2a5b3dabf5ae0e122f218808a6348371d9.png" alt="Activity Monitoring">
+                    <div class="image-overlay">
+                        <h3>Activity Monitoring</h3>
+                        <p>Tracking daily routines and patterns</p>
+                    </div>
+                </div>
+                <div class="image-card">
+                    <img src="https://images.unsplash.com/photo-1573496799652-408c2ac9fe98?w=800" alt="Data Analysis">
+                    <div class="image-overlay">
+                        <h3>Intelligent Analysis</h3>
+                        <p>Smart pattern recognition for safety monitoring</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="features" class="section fade-in">
+            <h2>Key Features</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">📡</div>
+                    <h3>3D Radar Sensing</h3>
+                    <p>Using radar with 3D People Tracking firmware for precise movement detection.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🤖</div>
+                    <h3>Machine Learning Analysis</h3>
+                    <p>The algorithm as high accuracy in subject-independent testing for reliable activity classification.</p>
+                </div>
+ 
+            </div>
+        </section>
+
+        <section id="demo" class="section demo-section fade-in">
+            <h2>How It Works</h2>
+            <div class="demo-container">
+                <h3>System Demonstration</h3>
+                <div class="video-container">
+                    <iframe src="https://streamable.com/e/5mhln2?autoplay=0&controls=1" frameborder="0" allowfullscreen></iframe>
+                </div>
+                <p>Our radar system continuously monitors movement patterns, recognizing five key activities: walking, sitting down, standing up, lying down, and getting up from lying position - all while maintaining complete privacy.</p>
+            </div>
+        </section>
+
+        <section id="methodology" class="section fade-in">
+            <h2>Methodology</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <h3>Data Collection</h3>
+                    <p>Radar captures 3D point cloud data at a few frames per second with millimeter-wave technology.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>Feature Extraction</h3>
+                    <p>Features extracted from a second window of data including velocity, acceleration etc...</p>
+                </div>
+                <div class="feature-card">
+                    <h3>Classification</h3>
+                    <p>Our algoritm classifier trained on balanced dataset achieves high accuracy in subject-independent testing using Leave-One-Subject-Out validation.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="results" class="section fade-in">
+            <h2>Results</h2>
+            <p>Our system achieves state-of-the-art performance in activity recognition, demonstrating:</p>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <h3>High Accuracy</h3>
+                    <p>Excellent performance in activity classification across different users and scenarios in subject-independent testing.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>Strong F1-Score</h3>
+                    <p>Consistent performance in subject-dependent evaluation, showing robust recognition for individual users.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>Multiple Activities</h3>
+                    <p>Reliable recognition of various daily movements including walking, sitting/standing transitions, and lying/getting up movements.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="team" class="section fade-in">
+            <h2>Research Team</h2>
+            <div class="team-container">
+                <div class="team-card">
+                    <img src="fotos/bruno.jpg" alt="Bruno Pereira">
+                    <div class="team-card-content">
+                        <h3>Bruno Pereira</h3>
+                        <p>Researcher</p>
+                        <div class="team-social">
+                            <a href="#" title="LinkedIn">📱</a>
+                            <a href="#" title="Email">✉️</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="team-card">
+                    <img src="fotos/diogo.png" alt="Diogo Couto">
+                    <div class="team-card-content">
+                        <h3>Diogo Couto</h3>
+                        <p>Researcher</p>
+                        <div class="team-social">
+                            <a href="#" title="LinkedIn">📱</a>
+                            <a href="#" title="Email">✉️</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="team-card">
+                    <img src="fotos/joao.jpg" alt="João Oliveira">
+                    <div class="team-card-content">
+                        <h3>João Oliveira</h3>
+                        <p>Researcher</p>
+                        <div class="team-social">
+                            <a href="#" title="LinkedIn">📱</a>
+                            <a href="#" title="Email">✉️</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="team-card">
+                    <img src="fotos/rafael.png" alt="Rafael Claro">
+                    <div class="team-card-content">
+                        <h3>Rafael Claro</h3>
+                        <p>Researcher</p>
+                        <div class="team-social">
+                            <a href="#" title="LinkedIn">📱</a>
+                            <a href="#" title="Email">✉️</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="team-card">
+                    <img src="fotos/tomas.png" alt="Tomás Rodrigues">
+                    <div class="team-card-content">
+                        <h3>Tomás Rodrigues</h3>
+                        <p>Researcher</p>
+                        <div class="team-social">
+                            <a href="#" title="LinkedIn">📱</a>
+                            <a href="#" title="Email">✉️</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="team-card">
+                    <img src="fotos/anarocha.png" alt="Ana Rocha">
+                    <div class="team-card-content">
+                        <h3>Ana Rocha</h3>
+                        <p>Supervisor</p>
+                        <div class="team-social">
+                            <a href="#" title="LinkedIn">📱</a>
+                            <a href="#" title="Email">✉️</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="team-card">
+                    <img src="fotos/daniel.png" alt="Daniel Albuquerque">
+                    <div class="team-card-content">
+                        <h3>Daniel Albuquerque</h3>
+                        <p>Supervisor</p>
+                        <div class="team-social">
+                            <a href="#" title="LinkedIn">📱</a>
+                            <a href="#" title="Email">✉️</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>© 2024 Radar-Based Activity Recognition Research Team - University of Aveiro</p>
+        <p>Advancing Non-Intrusive Smart Environment Technology for Independent Living</p>
+    </footer>
+
+    <script>
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Intersection Observer for fade-in animations
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, {
+            threshold: 0.1
+        });
+
+        document.querySelectorAll('.fade-in').forEach((element) => {
+            observer.observe(element);
+        });
+
+        // Active navigation highlighting
+        window.addEventListener('scroll', () => {
+            let current = '';
+            document.querySelectorAll('section').forEach(section => {
+                const sectionTop = section.offsetTop;
+                if (pageYOffset >= sectionTop - 60) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            document.querySelectorAll('nav ul li a').forEach(li => {
+                li.classList.remove('active');
+                if (li.getAttribute('href').substring(1) === current) {
+                    li.classList.add('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
